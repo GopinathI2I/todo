@@ -36,6 +36,7 @@ document.getElementById('addStepContent').addEventListener('keypress', function(
     });
 
 
+
 var tasks = [];
 var currentSubTask = [];
 function addTask(newTasks) {
@@ -86,22 +87,39 @@ function displayTaskName(id) {
 }
 
 function displaySubTaskForList() {
+    console.log("SFDDS");
     var listName = document.getElementById("text-content").textContent;
     var existList = tasks.find(function(element) { 
     return element.taskName == listName; 
     }); 
     var existSubTasks = existList.subTasks; 
     if (existSubTasks.length == 0) {
+        console.log(existSubTasks);
         document.getElementById("addSubTask").innerHTML = " ";
         return;
     } else { 
         document.getElementById("addSubTask").innerHTML = " ";
-        for (var i = 0; i<= existSubTasks.length; i++) {
+        console.log(existSubTasks.length);
+        for (var i = 0; i < existSubTasks.length; i++) {
             var findedSubTask = existSubTasks[i];
+            var id = findedSubTask[0].id;
             var newDiv = document.createElement("div"); 
+            newDiv.setAttribute("id", id); 
             var newDivForCircleIcon = document.createElement("div");
+            var subTaskName = findedSubTask[0].subTaskName;
+            var newSpan = document.createElement("p");
+            newSpan.classList.add("newSpanForSubTask");
+            newSpan.setAttribute("id", id);
+            if (findedSubTask[0].checked == false) {
+                newDivForCircleIcon.innerHTML = '<i class="fa fa-circle-thin" aria-hidden="true"></i>';
+                newDivForCircleIcon.setAttribute("circleId", id);
+                newSpan.style.textDecoration = "none";
+            } else {
+                newDivForCircleIcon.innerHTML = '<i class="fa fa-check-circle" aria-hidden="true"></i>';
+                newDivForCircleIcon.setAttribute("circleId", id);
+                newSpan.style.textDecoration = "line-through";
+            }
             newDivForCircleIcon.classList.add("circleDiv");
-            newDivForCircleIcon.innerHTML = '<i class="fa fa-circle-thin" aria-hidden="true"></i>';
             newDiv.classList.add("newTasks");
             var newLineBreakDiv = document.createElement("div");
             newLineBreakDiv.style.display="flex";
@@ -111,14 +129,13 @@ function displaySubTaskForList() {
             var currentDiv = document.getElementById("addSubTask"); 
             document.getElementById("addSubTask").style.width = "300px";
             document.getElementById("addSubTask").style.color = "#0078D7"; 
-            var newSpan = document.createElement("p");
-            newSpan.classList.add("newSpanForSubTask");
-            console.log(findedSubTask);
+            console.log(findedSubTask[0]);
             newSpan.innerHTML = findedSubTask[0].subTaskName;
             newDiv.appendChild(newDivForCircleIcon);
             newDiv.appendChild(newLineBreakDiv);
             newDiv.appendChild(newSpan);
             currentDiv.appendChild(newDiv);
+            displaySubTaskName(id);
             document.getElementById("addSubTaskContent").value = " ";
         }
     }
@@ -135,13 +152,21 @@ function displayStepForSubList() {
         return;
     } else { 
         document.getElementById("addSteps").innerHTML = " ";
-    for (var i = 0; i <= currentSteps.length; i++) {
+    for (var i = 0; i <  currentSteps.length; i++) {
         console.log(currentSteps);
         console.log(currentSteps[0]);
+        var id = currentSteps[i].id;
         var newDiv = document.createElement("div"); 
+        newDiv.setAttribute("id", id);
         var newDivForCircleIconStep = document.createElement("div");
         newDivForCircleIconStep.classList.add("newDivForCircleIconStep");
-        newDivForCircleIconStep.innerHTML = '<i class="fa fa-circle-thin" aria-hidden="true"></i>';
+        if (currentSteps[i].checked == false) {
+            newDivForCircleIconStep.innerHTML = '<i class="fa fa-circle-thin" aria-hidden="true"></i>';
+            newDivForCircleIconStep.setAttribute("id", id);
+        } else {
+            newDivForCircleIconStep.innerHTML = '<i class="fa fa-check-circle" aria-hidden="true"></i>';
+            newDivForCircleIconStep.setAttribute("id", id);
+        }
         newDiv.classList.add("newstep");
         var newLineBreakDiv = document.createElement("div");
         newLineBreakDiv.style.display="flex";
@@ -150,6 +175,7 @@ function displayStepForSubList() {
         document.getElementById("addSteps").style.width = "500px";
         document.getElementById("addSteps").style.color = "#0078D7"; 
         var newSpan = document.createElement("p");
+        newSpan.setAttribute("id", id);
         newSpan.classList.add("newSpanForStep");
         console.log(currentSteps[0].stepName);
         newSpan.innerHTML = currentSteps[i].stepName;
@@ -158,6 +184,7 @@ function displayStepForSubList() {
         newDiv.appendChild(newSpan);
         currentDiv.appendChild(newDiv);
         document.getElementById("addStepContent").value = " ";
+        changedCheckedOrUncheckedForStep(id);
     }
     }
 }
@@ -197,8 +224,53 @@ function addSteps(step) {
         newDiv.appendChild(newSpan);
         currentDiv.appendChild(newDiv);
         document.getElementById("addStepContent").value = " ";
+        changedCheckedOrUncheckedForStep(id);
     }
 }
+
+function changedCheckedOrUncheckedForStep(id) {
+    document.getElementById(id).addEventListener("click", function(event) {
+    var targetId = event.target.id;
+    console.log(targetId);
+    console.log(currentSubTask[0].step);
+    var elementClassName = event.target.className;
+    var targetId = event.target.id;
+    if (elementClassName == "fa fa-circle-thin") {
+        changedUncheckedIntoCheckedForStep(id);
+        changeStepStatusIntoTrue(id);
+    } else if (elementClassName == "fa fa-check-circle") {
+        changedCheckedIntoUncheckedForStep(id);
+        changeStepStatusIntoFalse(id);
+    }
+});
+}
+
+function changeStepStatusIntoTrue(id) {
+    console.log(id);
+    var existSteps = currentSubTask[0].step;
+    console.log(existSteps);
+    for (var i = 0 ; i < existSteps.length; i++) {
+        console.log(existSteps[i].id);
+        if (id == existSteps[i].id) {
+            existSteps[i].checked = true;
+            console.log(existSteps);
+        } 
+    }
+}
+
+function changeStepStatusIntoFalse(id) {
+    console.log(id);
+    var existSteps = currentSubTask[0].step;
+    console.log(existSteps);
+    for (var i = 0 ; i < existSteps.length; i++) {
+        console.log(existSteps.id);
+        if (id == existSteps.id) {
+            existSteps[i].checked = false;
+            console.log(existSteps);
+        } 
+    }
+}
+        
     
 
 function addSubTask(subTasks) {
@@ -242,6 +314,7 @@ function addSubTask(subTasks) {
    } 
 }
 
+
 function displaySubTaskName(id) {
     document.getElementById(id).addEventListener("click", function(event) {
     var elementClassName = event.target.className;
@@ -252,11 +325,16 @@ function displaySubTaskName(id) {
     if ((elementClassName == "circleDiv") || (elementClassName == "fa fa-circle-thin")) {
         changedUncheckedIntoChecked(id);
         currentSubTask[0].checked = true;
-        //findCheckedOrNot();
+        console.log(currentTask);
+        findCheckedOrNot();
+        displayStepForSubList();
+        console.log(currentTask);
     } else if ((elementClassName == "circleDiv") || (elementClassName == "fa fa-check-circle")) {
         changedCheckedIntoUnchecked(id);
         currentSubTask[0].checked = false;
-       // findCheckedOrNot();
+        findCheckedOrNot();
+        displayStepForSubList();
+        console.log(currentTask);
     } else {
         for (var i = 0; i < existSubTasks.length; i++) {
             var findedSubTask = existSubTasks[i];
@@ -264,7 +342,7 @@ function displaySubTaskName(id) {
                 currentSubTask = findedSubTask;
                 document.getElementById("rightDiv").style.display = "block";
                 findCheckedOrNot();
-                //document.getElementById("subTaskName").textContent = findedSubTask[0].subTaskName;
+                displayStepForSubList();
             }
         }
         displayStepForSubList();
@@ -272,8 +350,32 @@ function displaySubTaskName(id) {
     });
 }
 
+
+document.getElementById("cicleSymbolForStep").addEventListener("click", function(event) {
+var className = event.target.className;
+console.log(className);
+if (className == "fa fa-check-circle") {
+    currentSubTask[0].checked = false;
+    document.getElementById("subTaskName").textContent = currentSubTask[0].subTaskName; 
+    document.getElementById("subTaskName").style.textDecoration = "none";
+    var circleIcon = document.getElementById("cicleSymbolForStep");
+    circleIcon.innerHTML = '<i class="fa fa-circle-thin" aria-hidden="true"></i>';
+    displaySubTaskForList();
+    
+} else {
+    currentSubTask[0].checked = true;
+    document.getElementById("subTaskName").textContent = currentSubTask[0].subTaskName; 
+    document.getElementById("subTaskName").style.textDecoration = "line-through";
+    var circleIcon = document.getElementById("cicleSymbolForStep");
+    circleIcon.innerHTML = '<i class="fa fa-check-circle" aria-hidden="true"></i>';
+    displaySubTaskForList();
+}
+});
+ 
+
 function findCheckedOrNot() {
     if (currentSubTask[0].checked == false) {
+        console.log(currentSubTask[0].checked);
         document.getElementById("subTaskName").textContent = currentSubTask[0].subTaskName; 
         document.getElementById("subTaskName").style.textDecoration = "none";
         var circleIcon = document.getElementById("cicleSymbolForStep");
@@ -296,11 +398,23 @@ function findCurrentSubTask(existSubTasks, id) {
     }
 }
 
+function changedUncheckedIntoCheckedForStep(id) {
+    document.getElementById(id).getElementsByClassName("newSpanForStep")[0].style.textDecoration = "line-through";
+    var icon =  document.getElementById(id).getElementsByClassName("newDivForCircleIconStep")[0];
+    icon.innerHTML = '<i class="fa fa-check-circle" aria-hidden="true"></i>';
+}
+
+function changedCheckedIntoUncheckedForStep(id) {
+    document.getElementById(id).getElementsByClassName("newSpanForStep")[0].style.textDecoration = "none";
+    var icon =  document.getElementById(id).getElementsByClassName("newDivForCircleIconStep")[0];
+    icon.innerHTML = '<i class="fa fa-circle-thin" aria-hidden="true"></i>';
+}
+
 function changedUncheckedIntoChecked(id) {
     document.getElementById(id).getElementsByClassName("newSpanForSubTask")[0].style.textDecoration = "line-through";
     var icon =  document.getElementById(id).getElementsByClassName("circleDiv")[0];
-    console.log(icon);
     icon.innerHTML = '<i class="fa fa-check-circle" aria-hidden="true"></i>';
+     icon.setAttribute("circleIdForSteps", id);
 }
 
 function changedCheckedIntoUnchecked(id) {
@@ -309,6 +423,7 @@ function changedCheckedIntoUnchecked(id) {
     var icon =  document.getElementById(id).getElementsByClassName("circleDiv")[0];
     console.log(icon);
     icon.innerHTML = '<i class="fa fa-circle-thin" aria-hidden="true"></i>';
+    icon.setAttribute("circleIdForSteps", id);
 }
 
 
