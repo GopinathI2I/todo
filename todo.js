@@ -2,6 +2,10 @@ document.getElementById("openbtn").addEventListener("click", openNav);
 document.getElementById("closeNavForStep").addEventListener("click", function() {
     document.getElementById("rightDiv").style.display = "none";
 });
+
+document.getElementById("subTaskName").addEventListener("click", function() {
+    document.getElementById("subTaskName").contentEditable = true;
+});
     
 document.getElementById("plus").addEventListener("click", openNavForNewList);
 document.getElementById('newListTextBox').addEventListener('keypress', function(event) {
@@ -35,7 +39,15 @@ document.getElementById('addStepContent').addEventListener('keypress', function(
         }
     });
 
-
+document.getElementById('subTaskName').addEventListener('keypress', function(event) {
+    if (event.keyCode == 13) {
+        var subtaskName = document.getElementById("subTaskName").innerText;
+        currentSubTask[0].subTaskName = subtaskName;
+        displaySubTaskForList();
+        document.getElementById("subTaskName").contentEditable = false;
+    }
+});
+        
 
 var tasks = [];
 var currentSubTask = [];
@@ -158,14 +170,19 @@ function displayStepForSubList() {
         var id = currentSteps[i].id;
         var newDiv = document.createElement("div"); 
         newDiv.setAttribute("id", id);
+        var newSpan = document.createElement("p");
+        newSpan.setAttribute("id", id);
+        newSpan.classList.add("newSpanForStep");
         var newDivForCircleIconStep = document.createElement("div");
         newDivForCircleIconStep.classList.add("newDivForCircleIconStep");
         if (currentSteps[i].checked == false) {
             newDivForCircleIconStep.innerHTML = '<i class="fa fa-circle-thin" aria-hidden="true"></i>';
             newDivForCircleIconStep.setAttribute("id", id);
+            newSpan.style.textDecoration = "none";
         } else {
             newDivForCircleIconStep.innerHTML = '<i class="fa fa-check-circle" aria-hidden="true"></i>';
             newDivForCircleIconStep.setAttribute("id", id);
+            newSpan.style.textDecoration = "line-through";
         }
         newDiv.classList.add("newstep");
         var newLineBreakDiv = document.createElement("div");
@@ -174,9 +191,6 @@ function displayStepForSubList() {
         var currentDiv = document.getElementById("addSteps"); 
         document.getElementById("addSteps").style.width = "500px";
         document.getElementById("addSteps").style.color = "#0078D7"; 
-        var newSpan = document.createElement("p");
-        newSpan.setAttribute("id", id);
-        newSpan.classList.add("newSpanForStep");
         console.log(currentSteps[0].stepName);
         newSpan.innerHTML = currentSteps[i].stepName;
         newDiv.appendChild(newDivForCircleIconStep);
@@ -236,10 +250,10 @@ function changedCheckedOrUncheckedForStep(id) {
     var elementClassName = event.target.className;
     var targetId = event.target.id;
     if (elementClassName == "fa fa-circle-thin") {
-        changedUncheckedIntoCheckedForStep(id);
+        changedUncheckedIntoChecked(id, "newSpanForStep", "line-through", "newDivForCircleIconStep");
         changeStepStatusIntoTrue(id);
     } else if (elementClassName == "fa fa-check-circle") {
-        changedCheckedIntoUncheckedForStep(id);
+        changedUncheckedIntoChecked(id, "newSpanForStep", "none", "newDivForCircleIconStep");
         changeStepStatusIntoFalse(id);
     }
 });
@@ -323,14 +337,14 @@ function displaySubTaskName(id) {
     var existSubTasks = currentTask.subTasks;
     findCurrentSubTask(existSubTasks, id);
     if ((elementClassName == "circleDiv") || (elementClassName == "fa fa-circle-thin")) {
-        changedUncheckedIntoChecked(id);
+        changedUncheckedIntoChecked(id, "newSpanForSubTask", "line-through", "circleDiv");
         currentSubTask[0].checked = true;
         console.log(currentTask);
         findCheckedOrNot();
         displayStepForSubList();
         console.log(currentTask);
     } else if ((elementClassName == "circleDiv") || (elementClassName == "fa fa-check-circle")) {
-        changedCheckedIntoUnchecked(id);
+        changedCheckedIntoUnchecked(id, "newSpanForSubTask", "none", "circleDiv")
         currentSubTask[0].checked = false;
         findCheckedOrNot();
         displayStepForSubList();
@@ -371,7 +385,6 @@ if (className == "fa fa-check-circle") {
     displaySubTaskForList();
 }
 });
- 
 
 function findCheckedOrNot() {
     if (currentSubTask[0].checked == false) {
@@ -398,82 +411,64 @@ function findCurrentSubTask(existSubTasks, id) {
     }
 }
 
-function changedUncheckedIntoCheckedForStep(id) {
-    document.getElementById(id).getElementsByClassName("newSpanForStep")[0].style.textDecoration = "line-through";
-    var icon =  document.getElementById(id).getElementsByClassName("newDivForCircleIconStep")[0];
+function changedUncheckedIntoChecked(id, className, displayStyle, clasNameForCircleDiv) {
+    console.log(id, className, displayStyle, clasNameForCircleDiv);
+    getElementForTextDecoration(id, className, displayStyle);
+    var icon =  document.getElementById(id).getElementsByClassName(clasNameForCircleDiv)[0];
     icon.innerHTML = '<i class="fa fa-check-circle" aria-hidden="true"></i>';
 }
 
-function changedCheckedIntoUncheckedForStep(id) {
-    document.getElementById(id).getElementsByClassName("newSpanForStep")[0].style.textDecoration = "none";
-    var icon =  document.getElementById(id).getElementsByClassName("newDivForCircleIconStep")[0];
-    icon.innerHTML = '<i class="fa fa-circle-thin" aria-hidden="true"></i>';
-}
-
-function changedUncheckedIntoChecked(id) {
-    document.getElementById(id).getElementsByClassName("newSpanForSubTask")[0].style.textDecoration = "line-through";
-    var icon =  document.getElementById(id).getElementsByClassName("circleDiv")[0];
-    icon.innerHTML = '<i class="fa fa-check-circle" aria-hidden="true"></i>';
-     icon.setAttribute("circleIdForSteps", id);
-}
-
-function changedCheckedIntoUnchecked(id) {
-    document.getElementById(id).getElementsByClassName("newSpanForSubTask")[0].style.textDecoration = "none";
+function changedCheckedIntoUnchecked(id, className, displayStyle, clasNameForCircleDiv) {
     document.getElementById("subTaskName").style.textDecoration = "none";
-    var icon =  document.getElementById(id).getElementsByClassName("circleDiv")[0];
-    console.log(icon);
+    getElementForTextDecoration(id, className, displayStyle);
+    var icon =  document.getElementById(id).getElementsByClassName(clasNameForCircleDiv)[0];
     icon.innerHTML = '<i class="fa fa-circle-thin" aria-hidden="true"></i>';
-    icon.setAttribute("circleIdForSteps", id);
+}
+
+function getElementForTextDecoration(id, classNameName, displayStyle) {
+    document.getElementById(id).getElementsByClassName(classNameName)[0].style.textDecoration = displayStyle;
+}
+
+function setAttribute(elementName, setId, id) {
+    elementName.setAttribute(setId, id);
 }
 
 
+function getAllElementInQuerySelector(element) {
+    return document.querySelectorAll(element);
+}
+
+function hideOrShowNewList(taskName,displayStyle) {
+    for (var i=0; i<=taskName.length; i++) {
+        taskName[i].style.display = displayStyle;
+    }
+}
+
+function getSelectedElementById(elementId) {
+    return document.getElementById(elementId);
+}
+    
 
 function openNav() {
-    var element = document.getElementById("navigation");
-    var newList = document.getElementById("newListTextBox").value;
-    var list = document.getElementById("plus").text;
-    var taskName = document.querySelectorAll("span"); 
+    var element = getSelectedElementById("navigation");
+    var taskName = getAllElementInQuerySelector("span");
     if (element.style.width == "300px") {
         document.getElementById("main").style.marginLeft= "0";
         element.style.width = "45px";
-        document.getElementById("important_menu").style.display = "none";
-        document.getElementById("day_menu").style.display = "none";
-        document.getElementById("planned_menu").style.display = "none";
-        document.getElementById("tasks_menu").style.display = "none";
-        document.getElementById("newListTextBox").style.display = "none";
-        document.getElementById("userMenu").style.display = "none";
-        for (var i=0; i<=taskName.length; i++) {
-            taskName[i].style.display = "none";
-        }
+        showOrHideMenu("important_menu,day_menu,planned_menu,tasks_menu,userMenu,newListTextBox","none");
+        hideOrShowNewList(taskName,"none");
     } else {
-        element.style.width = "300px";
-        document.getElementById("main").style.marginLeft = "300px";
-        document.getElementById("important_menu").style.display = "block";
-        document.getElementById("day_menu").style.display = "block";
-        document.getElementById("planned_menu").style.display = "block";
-        document.getElementById("tasks_menu").style.display = "block";
-        document.getElementById("newListTextBox").style.display = "block";
-        document.getElementById("userMenu").style.display = "block";
-         for (var i=0; i<=taskName.length; i++) {
-            taskName[i].style.display = "block";
-        }
+        openNavForNewList();
     }       
 }
 
 function openNavForNewList() {
-    var taskName = document.querySelectorAll("span"); 
+    var taskName = getAllElementInQuerySelector("span"); 
     document.getElementById("main").style.marginLeft = "300px";
     var element = document.getElementById("navigation");
     element.style.width = "300px";
-    document.getElementById("important_menu").style.display = "block";
-    document.getElementById("day_menu").style.display = "block";
-    document.getElementById("planned_menu").style.display = "block";
-    document.getElementById("tasks_menu").style.display = "block";
-    document.getElementById("newListTextBox").style.display = "block";
-    document.getElementById("userMenu").style.display = "block";
-     for (var i=0; i<=taskName.length; i++) {
-            taskName[i].style.display = "block";
-     }
+    showOrHideMenu("important_menu,day_menu,planned_menu,tasks_menu,userMenu,newListTextBox","block");
+    hideOrShowNewList(taskName,"block");
 }   
 
 function checkListTitle(title) {
@@ -490,6 +485,13 @@ function checkListTitle(title) {
    } else {
        return (title+"("+size+")");
    }
+}
+
+function showOrHideMenu() {
+    var sideNavMenu = arguments[0].split(',');
+    for (var i = 0; i < sideNavMenu.length; i++) {
+        document.getElementById(sideNavMenu[i]).style.display = arguments[1];
+    }
 }
 
 
