@@ -1,0 +1,48 @@
+<div #navigation class="navigation" [ngClass]="status ? 'openNavigation' : 'navigation'" >
+    <button class="openbtn" #nameInput  (click) ="openNav()"><i class="fa fa-bars"></i></button><br>
+    <div class="sun">
+        <i>&#9728;
+            <div >   
+                <span *ngIf="status" class="day_menu" id="day_menu">My Day</span>
+            </div>
+       </i>
+    </div>
+    <div class="star">
+        <a  class="menuLink" href="#"><i class="fa fa-star-o" >
+            <div>   
+                <span *ngIf="status"  class="important_menu" id="important_menu">Important</span>
+            </div>
+        </i></a>
+    </div>
+    <div class="calender">
+        <a class="menuLink" href="#"><i class="fa fa-calendar" >
+            <div>   
+                <span *ngIf="status" class="planned_menu" id="planned_menu">Planned</span>
+            </div>
+        </i></a>
+    </div>
+     <div class="user">
+        <a class="userLink" href="#"><i class="fa fa-user" >
+            <div>   
+                <span *ngIf="status" class="userMenu" id="userMenu">Assigned To Me</span>
+            </div>
+        </i></a>
+    </div>
+    <div class="home">
+        <a class="homeLink" href="#"><i class="fa fa-home" >
+            <div>   
+                <span *ngIf="status" class="tasks_menu" id="tasks_menu">Tasks</span>
+            </div>
+        </i></a>
+    </div>
+   
+    <div class="plus_symbol">
+        <div  class="taskName" id="addTask">
+        </div><br>
+        <a class="homeLink"(click) ="openNav()"  id="plus"  href="#" ><i class="fa fa-plus" >
+            <div>
+                <input type="text" *ngIf="status" class="newListTextBox" id="newListTextBox" placeholder="NewList"/>
+            </div>
+        </i></a>
+    </div>
+</div>

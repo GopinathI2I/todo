@@ -1,0 +1,157 @@
+.navigation {
+    font-size: 20px;
+    cursor: pointer;
+    color: #0078D7;
+    padding: 3px 1px;
+    border: none;
+    position: fixed;
+    width: 49px;
+    top: 48px;
+    height: 93%;
+    z-index: 100;
+    background-color: #e4e4e4;
+    transition: width .3s ease;
+    font-family:sans-serif;
+}
+
+.openNavigation {
+    width: 300px;
+}
+
+.openbtn {
+    font-size: 25px;
+    color: #0078D7;
+    padding: -1px 10px;
+    border: none;
+    width: 46px;
+    top: -198px;
+    background-color: #e4e4e4;
+    transition: width .3s ease;
+    margin-top: 25px;
+  
+}
+
+.star {
+    color: #696969;
+    margin-left: 13px;
+    margin-top: 55px;
+    position: fixed;
+}
+
+.home {
+    color: #696969;
+    margin-left: 13px;
+    margin-top: 174px;
+    position: fixed;
+}
+
+
+
+.calender {
+    color: #696969;
+    margin-top: 96px;
+    position: fixed;
+    margin-left: 13px;
+}
+
+
+.sun {
+    color: #696969;
+    margin-left: 13px;
+    margin-top: 17px;
+    position: fixed;
+}
+ 
+
+
+
+.important_menu {
+    margin-left: 38px;
+    color: black;
+    display: block;
+    margin-top: -19px;
+    font-size: 15px;
+    font-family:sans-serif;
+    position: fixed;
+}
+
+.userMenu {
+    margin-left: 38px;
+    color: black;
+    display: block;
+    margin-top: -18px;
+    font-size: 15px;
+    font-family:sans-serif;
+    position: fixed;
+}
+
+.user {
+    color: #696969;
+    margin-left: 16px;
+    margin-top: 137px;
+    position: fixed;
+}
+
+
+.day_menu {
+    margin-left: 38px;
+    color: black;
+    display: block;
+    margin-top: -24px;
+    font-size: 15px;
+    font-family:sans-serif;
+    position: fixed;
+}
+
+.planned_menu {
+    margin-left: 38px;
+    color: black;
+    display:block;
+    margin-top: -19px;
+    font-size: 15px;
+    font-family:sans-serif;
+    position: fixed;
+}
+
+.tasks_menu {
+    margin-left: 38px;
+    color: black;
+    display: block;
+    margin-top: -18px;
+    font-size: 15px;
+    font-family:sans-serif;
+    position: fixed;
+}
+
+.plus_symbol {
+    font-size: 20px;
+    color: #0078D7;
+    margin-left: 13px;
+    margin-top: 234px;
+    position: inherit;
+    font-size: 18px;
+}
+
+.newListTextBox {
+    border:none;
+    display:block;
+    margin-left: 38px;
+    margin-top: -25px;
+    width: 19%;
+    height: 26px;
+    position: fixed;
+    outline:none;
+}
+
+
+.menuLink {
+    color:#696969;
+}
+
+.homeLink {
+    color:#0078D7;
+}
+
+.userLink {
+    color:green;
+}
