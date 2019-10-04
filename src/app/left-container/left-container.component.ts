@@ -1,4 +1,5 @@
-import { Component, OnInit, Inject, Input} from '@angular/core';
+import { Component, OnInit} from '@angular/core';
+import { tasks } from '../task';
 
 @Component({
   selector: 'app-left-container',
@@ -7,21 +8,41 @@ import { Component, OnInit, Inject, Input} from '@angular/core';
 })
 
 export class LeftContainerComponent implements OnInit {
-
+  activeTask;
+  newSubTasks;
+  
   constructor() { }
-
+  taskStatus:boolean = false;
   ngOnInit() {
     
   }
   
+  moveWidth() {
+    document.getElementById("main").style.marginLeft = "300px";
+  }
+
+  moveBackWidth() {
+    document.getElementById("main").style.marginLeft = "40px";
+  }
+
+  displayTaskName(newTask) {
+    this.activeTask = newTask;
+    
+  }
+
+  addSubTask(newSubTaskName) {
+    var subTask = {subTaskName:newSubTaskName, checked: false, id: Date.now(), steps:[]};
+    for (let i of tasks) {
+      if (i.taskname == this.activeTask.taskname) {
+        let subTasks = i.subTasks;
+        subTasks.push(subTask);
+      }
+    }
+    this.newSubTasks = this.activeTask.subTasks;
+  }
   
 
-}
 
-export function moveWidth() {
-  document.getElementById("main").style.marginLeft = "300px";
-}
 
-export function moveBackWidth() {
-  document.getElementById("main").style.marginLeft = "40px";
+  
 }

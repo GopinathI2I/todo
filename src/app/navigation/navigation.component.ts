@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { Template } from '@angular/compiler/src/render3/r3_ast';
-import { moveWidth } from '../left-container/left-container.component';
-import { moveBackWidth } from '../left-container/left-container.component';
+import { Component, OnInit,Input } from '@angular/core';
+import { tasks } from '../task';
+import { LeftContainerComponent } from '../left-container/left-container.component';
 
 @Component({
   selector: 'app-navigation',
@@ -9,20 +8,34 @@ import { moveBackWidth } from '../left-container/left-container.component';
   styleUrls: ['./navigation.component.scss']
 })
 export class NavigationComponent implements OnInit {
-  constructor() { }
+  @Input() leftContainerComponent: LeftContainerComponent;
+  constructor() {
+   }
   status:boolean = false;
+  tasks = tasks;
   ngOnInit() {
     
   }
 
   openNav() {
     this.status = !this.status;
-    console.log(this.status);
     if (this.status == true) {
-      moveWidth();
+      this.leftContainerComponent.moveWidth();
     } else {
-      moveBackWidth();
+      this.leftContainerComponent.moveBackWidth();
     }
  }
+
+ openNavForList() {
+   this.status = true;
+   this.leftContainerComponent.moveWidth();
+ }
+
+  addList(newList,newListTextBox) {
+    var todoTask = {taskName:newList, checked: false, id: Date.now(), subTasks:[]};
+    tasks.push(todoTask);
+    this.leftContainerComponent.displayTaskName(todoTask);
+    newListTextBox.value = " ";
+  }
     
 }

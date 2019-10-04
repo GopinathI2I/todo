@@ -37,11 +37,15 @@
     </div>
    
     <div class="plus_symbol">
-        <div  class="taskName" id="addTask">
+        <div *ngFor="let task of tasks"  class="taskName" id="addTask">
+                <div class="newTasks">
+                    <i class="fa fa-list-ul" aria-hidden="true"></i>
+                    <span *ngIf="status" class="newSpan">{{task.taskName}}</span>
+                </div>
         </div><br>
-        <a class="homeLink"(click) ="openNav()"  id="plus"  href="#" ><i class="fa fa-plus" >
+        <a class="homeLink"(click)="openNavForList()"  #plus  href="#" ><i class="fa fa-plus" >
             <div>
-                <input type="text" *ngIf="status" class="newListTextBox" id="newListTextBox" placeholder="NewList"/>
+                <input type="text" #newListTextBox *ngIf="status" (keyup.enter)="addList(newListTextBox.value,newListTextBox)" class="newListTextBox"   placeholder="NewList"/>
             </div>
         </i></a>
     </div>

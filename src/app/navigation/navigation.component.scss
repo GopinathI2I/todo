@@ -155,3 +155,29 @@
 .userLink {
     color:green;
 }
+
+.newTasks {
+    width: 286px;
+    display: flex;
+    margin-top: 30px;
+    margin-left: 1px;
+    height: 30px;
+}
+
+.newTasks:hover {
+    background-color:white;
+}
+
+.newSpan {
+    position:relative;
+    padding-left:20px;
+    font-size:15px;
+
+}
+
+.newSpan:hover {
+    background-color:white;
+    height: 30%;
+    width:100%;
+    transition: width 1s;
+}
