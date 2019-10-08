@@ -1,0 +1,73 @@
+<div  id="rightDiv" class="container leftContainer rightContainer" [ngClass]="rightContainerStatus ? 'container leftContainer showRightContainer' : 'container leftContainer rightContainer'">
+    <div class="headerForRightDiv">
+        <div id="cicleSymbolForStep" class="headerForRightDiv cicleSymbolForStep">
+           <i  class="fa fa-circle-thin" aria-hidden="true"></i>
+        </div>
+        <div id="subTaskName" class="headerForRightDiv displaySubTaskName"><p>{{activeSubTask.subTaskName}}</p></div>
+        
+        <div>
+            <div class="addSteps" id="addSteps">
+        </div>
+            <div class="addstepSymbol">
+                <i class="fa fa-plus"></i>
+            </div>
+            <div class="addstepTextBox">    
+                <input type="text" id="addStepContent" placeholder="Add step" class="addStep"/><div class="plusSymbol">
+                <i class="fa fa-plus"></i></div>
+            </div>
+        </div>
+        <div class="addToMyDayForStep">
+            <div class="rightNavIcon">
+                &#9728;
+                <div class="rightNavText">
+                    <p>Add to My Day</p>
+                </div>
+            </div>
+        </div>
+        <div class="remindMeForStep">
+            <div class="rightNavIcon">
+                <i class="fa fa-clock-o"></i>
+                <div class="rightNavText">
+                    <p>Remind Me</p>
+                </div>
+            </div>
+            <div class="rightNavIcon">
+                <i class="fa fa-calendar" ></i>
+                <div class="rightNavText">
+                    <p>Add due date</p>
+                </div>
+            </div>
+            <div class="rightNavIcon">
+                <i class="fa fa-refresh" aria-hidden="true"></i>
+                <div class="rightNavText">
+                    <p>Repeat</p>
+                </div>
+            </div>
+        </div>
+        <div class="addFile">
+            <div class="rightNavIcon">
+                <i class="fa fa-paperclip" aria-hidden="true"></i>
+                <div class="rightNavText">
+                    <p>Add file</p>
+                </div>
+            </div>
+        </div>
+        <div class="addNote">
+            <input type="text" placeholder="Add note" class="addNoteTextBox"/>
+        </div> 
+        
+        
+            
+    </div>
+    <div class="footerForStep">
+            <div class="rightAngle">
+                <i id="closeNavForStep" class="fa fa-angle-right"></i>
+            </div>
+            <div class="createdDate">
+                <p>Created Today</p>
+            </div>
+            <div id="deleteSubTask" class="trashForStep">
+                <i class="fa fa-trash" aria-hidden="true"></i>
+            </div>
+    </div>
+</div>

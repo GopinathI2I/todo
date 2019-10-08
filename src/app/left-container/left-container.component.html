@@ -2,11 +2,16 @@
 <div id="main"  class="container  leftContainer">
     <div id="text-content"   class="taskLabel"><p id="Tasks">{{activeTask.taskName}}</p></div>
  <div class="addSubTask" id="addSubTask">
-        <div *ngFor="let subTask of newSubTasks" class="newTasks addSubTask" >
-            <div  class="circleDiv">
-                <i class="fa fa-circle-thin" aria-hidden="true"></i></div>
-                <div class="line" ></div>
+        <div id="{{subTask.id}}" (click)="addSteps(subTask)" *ngFor="let subTask of newSubTasks" class="newTasks addSubTask" >
+            <div *ngIf="subTask.checked == false" #circleDiv class="circleDiv">
+                <i  class="fa fa-circle-thin" id="{{subTask.id}}" #circleForSubTask (click)="changeCheckedOrUnCheckedForSubTask(subTask, circleDiv)" aria-hidden="true"></i>
                 <p  class="newSpanForSubTask" >{{subTask.subTaskName}}</p>
+            </div>
+            <div *ngIf="subTask.checked" #circleDiv class="circleDiv">
+                <i  class="fa fa-check-circle" id="{{subTask.id}}" #circleForSubTask (click)="changeCheckedOrUnCheckedForSubTask(subTask, circleDiv)" aria-hidden="true"></i>
+                <p  class="newSpanForSubTaskChecked" >{{subTask.subTaskName}}</p>
+            </div>
+                <div class="line" ></div>
             </div>
         </div>
     <div class="subTaskLine">
@@ -14,9 +19,8 @@
             <i class="fa fa-plus"></i>
         </div>
         <div class="addTaskTextBox">    
-            <input type="text" #addSubTaskContent (keyup.enter)="addSubTask(addSubTaskContent.value)"   placeholder="Add task" class="addTaskStyleTextBox"/>
+            <input type="text" #addSubTaskContent (keyup.enter)="addSubTask(addSubTaskContent.value, addSubTaskContent)"   placeholder="Add task" class="addTaskStyleTextBox"/>
         </div>
     </div>
 </div>
-
 

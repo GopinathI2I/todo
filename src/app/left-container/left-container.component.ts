@@ -1,6 +1,6 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit,Input} from '@angular/core';
 import { tasks } from '../task';
-
+import { RightContainerComponent } from '../right-container/right-container.component';
 @Component({
   selector: 'app-left-container',
   templateUrl: './left-container.component.html',
@@ -8,8 +8,11 @@ import { tasks } from '../task';
 })
 
 export class LeftContainerComponent implements OnInit {
+  @Input() rightContainerComponent: RightContainerComponent;
   activeTask;
   newSubTasks;
+  circleStatus:boolean = true;
+  checkedCircleStatus:boolean = false;
   
   constructor() { }
   taskStatus:boolean = false;
@@ -27,21 +30,34 @@ export class LeftContainerComponent implements OnInit {
 
   displayTaskName(newTask) {
     this.activeTask = newTask;
+    this.displaySubTask(this.activeTask.subTasks);
     
   }
 
-  addSubTask(newSubTaskName) {
+  displaySubTask(existSubTask) {
+    this.newSubTasks = existSubTask;
+  }
+
+  addSubTask(newSubTaskName, addSubTaskContent) {
     var subTask = {subTaskName:newSubTaskName, checked: false, id: Date.now(), steps:[]};
-    for (let i of tasks) {
-      if (i.taskname == this.activeTask.taskname) {
-        let subTasks = i.subTasks;
-        subTasks.push(subTask);
-      }
-    }
+    var activeSubTask = this.activeTask.subTasks;
+    activeSubTask.push(subTask);
     this.newSubTasks = this.activeTask.subTasks;
+    addSubTaskContent.value = null;
+  }
+
+  changeCheckedOrUnCheckedForSubTask(subTask, circleForSubTask) {
+    if (subTask.checked == true) {
+      subTask.checked = false;
+    } else {
+      subTask.checked = true;
+    }
+
   }
   
-
+   addSteps(existSubTask) {
+    this.rightContainerComponent.displaySubTaskName(existSubTask);
+   }
 
 
   

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-right-container',
@@ -6,10 +6,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./right-container.component.scss']
 })
 export class RightContainerComponent implements OnInit {
-
+  rightContainerStatus:boolean = false;
+  activeSubTask;
   constructor() { }
 
   ngOnInit() {
+  }
+
+  displaySubTaskName(existSubTask) {
+    console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    this.activeSubTask = existSubTask;
+    this.rightContainerStatus = true;
   }
 
 }

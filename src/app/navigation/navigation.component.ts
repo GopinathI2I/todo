@@ -35,7 +35,11 @@ export class NavigationComponent implements OnInit {
     var todoTask = {taskName:newList, checked: false, id: Date.now(), subTasks:[]};
     tasks.push(todoTask);
     this.leftContainerComponent.displayTaskName(todoTask);
-    newListTextBox.value = " ";
+    newListTextBox.value = null;
+  }
+
+  addSubTask(task) {
+    this.leftContainerComponent.displayTaskName(task);
   }
     
 }
