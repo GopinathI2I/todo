@@ -1,18 +1,34 @@
 <div  id="rightDiv" class="container leftContainer rightContainer" [ngClass]="rightContainerStatus ? 'container leftContainer showRightContainer' : 'container leftContainer rightContainer'">
     <div class="headerForRightDiv">
-        <div id="cicleSymbolForStep" class="headerForRightDiv cicleSymbolForStep">
+        <div *ngIf="activeSubTask.checked == false" (click)= "changeSubTaskStatus()" id="{{activeSubTask.id}}" class="headerForRightDiv cicleSymbolForStep">
            <i  class="fa fa-circle-thin" aria-hidden="true"></i>
         </div>
-        <div id="subTaskName" class="headerForRightDiv displaySubTaskName"><p>{{activeSubTask.subTaskName}}</p></div>
+        <div *ngIf="activeSubTask.checked" (click)= "changeSubTaskStatus()"  id="{{activeSubTask.id}}" class="headerForRightDiv cicleSymbolForStep">
+                <i  class="fa fa-check-circle" aria-hidden="true"></i>
+        </div>
+        <div  *ngIf="activeSubTask.checked == false" contenteditable="true" #subTaskName  (keyup.enter)="updateSubTaskName(subTaskName.value, subTaskName)"   id="subTaskName" class="headerForRightDiv displaySubTaskName"><p >{{activeSubTask.subTaskName}}</p></div>
+        <div  *ngIf="activeSubTask.checked" contenteditable="true" #subTaskName (keyup.enter)="updateSubTaskName(subTaskName.value, subTaskName)" id="subTaskName" class="headerForRightDiv displaySubTaskNameChecked"><p >{{activeSubTask.subTaskName}}</p></div>
         
         <div>
-            <div class="addSteps" id="addSteps">
-        </div>
+            <div class="addSteps"  id="addSteps">
+                <div *ngFor="let step of steps" class="newstep">
+                    <div *ngIf="step.checked == false" #newDivForCircleIconStep  class="newDivForCircleIconStep" >
+                        <i class="fa fa-circle-thin" id="{{step.id}}" (click)="changeCheckedOrUnCheckedForStep(step, newDivForCircleIconStep)" aria-hidden="true"></i>
+                        <p  class="newSpanForStep">{{step.stepName}}</p>
+                    </div>
+                    <div *ngIf="step.checked"  class="newDivForCircleIconStep" >
+                            <i class="fa fa-check-circle" id="{{step.id}}" (click)="changeCheckedOrUnCheckedForStep(step, newDivForCircleIconStep)" aria-hidden="true"></i>
+                            <p  class="newSpanForStepCkecked">{{step.stepName}}</p>
+                    </div>
+                    <div class="stepsLine" >
+                    </div>
+                </div>
+            </div>
             <div class="addstepSymbol">
                 <i class="fa fa-plus"></i>
             </div>
             <div class="addstepTextBox">    
-                <input type="text" id="addStepContent" placeholder="Add step" class="addStep"/><div class="plusSymbol">
+                <input type="text" id="addStepContent"  #addStep (keyup.enter)="addSteps(addStep.value, addStep)" placeholder="Add step" class="addStep"/><div class="plusSymbol">
                 <i class="fa fa-plus"></i></div>
             </div>
         </div>
@@ -61,13 +77,13 @@
     </div>
     <div class="footerForStep">
             <div class="rightAngle">
-                <i id="closeNavForStep" class="fa fa-angle-right"></i>
+                <i id="closeNavForStep" (click)="closeRightNavigation()" class="fa fa-angle-right"></i>
             </div>
             <div class="createdDate">
                 <p>Created Today</p>
             </div>
             <div id="deleteSubTask" class="trashForStep">
-                <i class="fa fa-trash" aria-hidden="true"></i>
+                <i class="fa fa-trash" (click)="deleteCurrentSubTask()"  aria-hidden="true"></i>
             </div>
     </div>
 </div>

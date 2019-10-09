@@ -55,10 +55,7 @@ export class LeftContainerComponent implements OnInit {
 
   }
   
-   addSteps(existSubTask) {
-    this.rightContainerComponent.displaySubTaskName(existSubTask);
+   addSteps(existSubTask, activeTask) {
+    this.rightContainerComponent.displaySubTaskName(existSubTask, activeTask);
    }
-
-
-  
 }

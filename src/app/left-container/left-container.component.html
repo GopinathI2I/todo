@@ -2,7 +2,7 @@
 <div id="main"  class="container  leftContainer">
     <div id="text-content"   class="taskLabel"><p id="Tasks">{{activeTask.taskName}}</p></div>
  <div class="addSubTask" id="addSubTask">
-        <div id="{{subTask.id}}" (click)="addSteps(subTask)" *ngFor="let subTask of newSubTasks" class="newTasks addSubTask" >
+        <div id="{{subTask.id}}" (click)="addSteps(subTask, activeTask)" *ngFor="let subTask of newSubTasks" class="newTasks addSubTask" >
             <div *ngIf="subTask.checked == false" #circleDiv class="circleDiv">
                 <i  class="fa fa-circle-thin" id="{{subTask.id}}" #circleForSubTask (click)="changeCheckedOrUnCheckedForSubTask(subTask, circleDiv)" aria-hidden="true"></i>
                 <p  class="newSpanForSubTask" >{{subTask.subTaskName}}</p>
