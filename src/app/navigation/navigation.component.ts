@@ -17,6 +17,9 @@ export class NavigationComponent implements OnInit {
     
   }
 
+  /**
+   * It open Or close the left navigation based on the navigation bar status
+   */
   openNav() {
     this.status = !this.status;
     if (this.status == true) {
@@ -26,11 +29,19 @@ export class NavigationComponent implements OnInit {
     }
  }
 
+ /**
+  * It open the left navigation for task icon
+  */
  openNavForList() {
    this.status = true;
    this.leftContainerComponent.moveWidth();
  }
 
+ /**
+  * Add new list name and created date ,list status
+  * @param newList - It carry the new list name
+  * @param newListTextBox - It carry the list text box property
+  */
   addList(newList,newListTextBox) {
     var todoTask = {taskName:newList, checked: false, id: Date.now(), subTasks:[]};
     tasks.push(todoTask);
@@ -38,6 +49,10 @@ export class NavigationComponent implements OnInit {
     newListTextBox.value = null;
   }
 
+  /**
+   * It display list name from middle container
+   * @param task - it carry the curren active task object
+   */
   addSubTask(task) {
     this.leftContainerComponent.displayTaskName(task);
   }

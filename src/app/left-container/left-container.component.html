@@ -1,5 +1,4 @@
-
-<div id="main"  class="container  leftContainer">
+<div id="main"  class="container  leftContainer" [ngClass]="middleContainerStatus ? 'container moveLeftContainer' : 'container  leftContainer'" >
     <div id="text-content"   class="taskLabel"><p id="Tasks">{{activeTask.taskName}}</p></div>
  <div class="addSubTask" id="addSubTask">
         <div id="{{subTask.id}}" (click)="addSteps(subTask, activeTask)" *ngFor="let subTask of newSubTasks" class="newTasks addSubTask" >
